@@ -1,0 +1,16 @@
+int8 ID_Type
+int8 UAS_Type
+string UAS_ID
+int8 Status
+int32 Direction
+float64 Speed
+float64 Vertical_Speed
+float64 Latitude
+float64 Longitude
+float64 Geodetic_Altitude
+int8 Vertical_Accuracy
+int8 Horizontal_Accuracy
+int8 Altitude_Accuracy
+int8 Speed_Accuracy
+string TimeStamp
+float64 TimeStamp_Accuracy

@@ -1,0 +1,39 @@
+def add_volume(conn):
+    """
+    Create a new project into the projects table
+    :param conn:
+    :param project:
+    :return: project id
+    """
+    sql = ''' INSERT INTO volumes(id,xmin,ymin,zmin,tmin,xmax,ymax,zmax,tmax)
+              VALUES(?,?,?,?,?,?,?,?,?) '''
+    cur = conn.cursor()
+    volume = (37, -1, -1, -1, "2022-10-01 03:39:10.087571", 3, 3, 1, "2022-10-06 03:39:10.087571")
+    cur.execute(sql, volume)
+    conn.commit()
+    return cur.lastrowid
+
+
+def create_table(conn):
+    try:
+        c = conn.cursor()
+        c.execute(""" CREATE TABLE IF NOT EXISTS volumes (
+                                        id string NOT NULL,
+                                        latmin float NOT NULL,
+                                        lonmin float NOT NULL,
+                                        altmin float NOT NULL,
+                                        tmin string NOT NULL,
+                                        latmax float NOT NULL,
+                                        lonmax float NOT NULL,
+                                        altmax float NOT NULL,
+                                        tmax string NOT NULL
+                                    ); """)
+    except Error as e:
+        print(e)
+
+    INSERT INTO volumes(id,latmin,lonmin,altmin,tmin,latmax,lonmax,altmax,tmax) VALUES("PR-202200001", -47.0887695, -22.5912104, 29, "2022-11-06 15:01:20.100000-03:00", -47.0883695, -22.5908104, 31, "2022-11-15 15:01:20.100000-03:00");
+
+    INSERT INTO volumes(id,latmin,lonmin,altmin,tmin,latmax,lonmax,altmax,tmax) VALUES("PR-202200002", -47.0886696 + 13*0.0001, -22.5911106 + 13*0.0001, 29 + 14, "2022-11-06 15:01:20.100000-03:00", -47.0886694 + 18*0.0001, -22.5911103 + 23*0.0001, 31 + 19, "2022-11-15 15:01:20.100000-03:00");
+
+    INSERT INTO volumes(id,latmin,lonmin,altmin,tmin,latmax,lonmax,altmax,tmax) VALUES("PR-202200003", -47.0886695 + 6*0.0001, -22.5911104 + 6*0.0001, 30 + 4, "2022-11-06 15:01:20.100000-03:00", -47.0886694 + 12*0.0001, -22.5911103 + 12*0.0001, 31 + 10, "2022-11-15 15:01:20.100000-03:00");
+

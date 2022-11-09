@@ -1,0 +1,59 @@
+#!/usr/bin/env python
+
+import rospy
+from std_msgs.msg import String
+from remoteid.msg import Drone_command
+
+
+class Pilot:
+    def __init__(self):
+        self.keep_going = True
+        self.droneid = "PR-202200004"
+
+    def go(self):
+        pub = rospy.Publisher('drone3_command', Drone_command, queue_size=10)
+        rospy.init_node('Pilot3')
+        rospy.Subscriber("storage_response", String, callback, self)
+        freq = 1
+        #time = 1.0/freq
+        rate = rospy.Rate(freq)  # 1hz
+
+        msg = Drone_command()
+
+        posx = 50.0
+        posy = 50.0
+        posz = 50.0
+
+        while not rospy.is_shutdown():
+
+            msg.posx = int(posx*1000 + (-470886695))
+            msg.posy = int(posy*1000 + (-225911104))
+            msg.posz = int(posz + (30))
+
+            rospy.loginfo(msg)
+            pub.publish(msg)
+
+            rate.sleep()
+
+            if not self.keep_going:
+                rospy.spin()
+
+
+def callback(data, piloto):
+    response = data.data.split()
+
+    if(response[0] == piloto.droneid):
+        if(response[1] == "stop" and piloto.keep_going):
+            rospy.loginfo("Ordem de parada recebida")
+            #piloto.keep_going = False
+
+        if(response[1] == "warning"):
+            rospy.loginfo("Mensagem de aviso recebida")
+
+
+if __name__ == '__main__':
+    try:
+        pilot = Pilot()
+        pilot.go()
+    except rospy.ROSInterruptException:
+        pass
